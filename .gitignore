@@ -1,0 +1,9 @@
+.venv/
+.idea/
+__pycache__/
+*.pyc
+db.sqlite3
+avatars/
+courses/
+lessons/
+.env
