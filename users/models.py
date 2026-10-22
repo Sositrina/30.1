@@ -29,3 +29,33 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         """Возвращает email пользователя."""
         return self.email
+
+
+class Payment(models.Model):
+    """Модель платежа."""
+
+    PAYMENT_METHOD_CHOICES = [
+        ('cash', 'Наличные'),
+        ('transfer', 'Перевод на счёт'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    payment_date = models.DateField()
+    paid_course = models.ForeignKey(
+        'course.Course', on_delete=models.CASCADE, null=True, blank=True
+    )
+    paid_lesson = models.ForeignKey(
+        'course.Lesson', on_delete=models.CASCADE, null=True, blank=True
+    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(
+        max_length=20, choices=PAYMENT_METHOD_CHOICES
+    )
+
+    class Meta:
+        verbose_name = 'Платёж'
+        verbose_name_plural = 'Платежи'
+
+    def __str__(self):
+        """Возвращает информацию о платеже."""
+        return f'{self.user} - {self.amount}'
