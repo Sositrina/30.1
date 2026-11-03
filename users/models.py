@@ -2,9 +2,13 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
+from django.contrib.auth.base_user import BaseUserManager
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Модель пользователя с авторизацией по email."""
+
+    objects = BaseUserManager()
 
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=150, blank=True)
