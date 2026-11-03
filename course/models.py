@@ -35,3 +35,15 @@ class Lesson(models.Model):
     def __str__(self):
         """Возвращает название урока."""
         return self.title
+
+
+class Subscription(models.Model):
+    """Подписка пользователя на курс."""
+
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    class Meta:
+        """Настройки модели подписки."""
+
+        unique_together = ('user', 'course')
