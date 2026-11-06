@@ -38,6 +38,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Payment(models.Model):
     """Модель платежа."""
 
+    stripe_product_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_price_id = models.CharField(max_length=255, null=True, blank=True)
+    stripe_session_id = models.CharField(max_length=255, null=True, blank=True)
+    payment_url = models.URLField(max_length=2000, null=True, blank=True)
+
     PAYMENT_METHOD_CHOICES = [
         ('cash', 'Наличные'),
         ('transfer', 'Перевод на счёт'),

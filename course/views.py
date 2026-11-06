@@ -10,6 +10,9 @@ from .paginators import CourseLessonPagination
 
 from django.shortcuts import get_object_or_404
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
 
 class CourseViewSet(viewsets.ModelViewSet):
     """CRUD для курсов."""
@@ -89,6 +92,25 @@ class LessonDestroyAPIView(generics.DestroyAPIView):
 
 class SubscriptionAPIView(APIView):
     """Добавление и удаление подписки на курс."""
+
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['course'],
+            properties={
+                'course': openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description='ID курса'
+                )
+            }
+        ),
+        responses={
+            200: 'Подписка добавлена или удалена',
+            401: 'Требуется авторизация',
+            404: 'Курс не найден'
+        }
+
+    )
 
     def post(self, request, *args, **kwargs):
         """Переключает подписку пользователя на курс."""
